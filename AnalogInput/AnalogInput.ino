@@ -33,12 +33,15 @@ int sensorValue = 0;
 int Motor1_INT1 = 4;// variable to storethe value coming from the sensor
 int Motor1_INT2 = 5;
 int Motor1_Enable = 3;
+int Pro_input = 2;
+int data_input = 0;
 char ch;
 void setup() {
   // declare the ledPin as an OUTPUT:
   pinMode(Motor1_INT1,OUTPUT);
   pinMode(Motor1_INT2,OUTPUT);
   pinMode(Motor1_Enable,OUTPUT);
+  pinMode(Pro_input,INPUT);
 
   digitalWrite(Motor1_INT1,LOW);
   digitalWrite(Motor1_INT2,LOW);
@@ -50,9 +53,10 @@ void setup() {
 
 void loop() {
   ch = Serial.read();
+  data_input  = digitalRead(Pro_input);
   sensorValue = analogRead(sensorPin);
+  Serial.println(data_input);
   Serial.println(sensorValue,DEC);
-  delay(500);
   motorA(ch);
   analogWrite(Motor1_Enable,sensorValue);
   
