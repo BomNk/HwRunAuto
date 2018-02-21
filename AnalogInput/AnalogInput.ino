@@ -52,6 +52,7 @@ void loop() {
   ch = Serial.read();
   sensorValue = analogRead(sensorPin);
   Serial.println(sensorValue,DEC);
+  delay(500);
   motorA(ch);
   analogWrite(Motor1_Enable,sensorValue);
   
