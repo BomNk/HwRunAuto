@@ -55,11 +55,11 @@ void loop() {
   ch = Serial.read();
   data_input  = digitalRead(Pro_input);
   sensorValue = analogRead(sensorPin);
-  Serial.println(data_input);
+  //Serial.println(data_input);
   Serial.println(sensorValue,DEC);
   motorA(ch);
   analogWrite(Motor1_Enable,sensorValue);
-  
+  delay(100);
 }
 void motorA(char ch){
    if(ch == 'L'){
