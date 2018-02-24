@@ -28,6 +28,9 @@
 */
 #define USE_ARDUINO_INTERRUPTS true    // Set-up low-level interrupts for most acurate BPM math.
 #include <PulseSensorPlayground.h>     // Includes the PulseSensorPlayground Library. 
+const byte interruptPin = 2;
+volatile byte state = LOW;
+
 
 const int PulseWire = A0;   // select the input pin for the potentiometer
 //const int PulseWire = A0;       // PulseSensor PURPLE WIRE connected to ANALOG PIN 0
@@ -42,12 +45,14 @@ int Motor1_INT2 = 5;
 int Motor1_Enable = 3;
 
 char speedMotor;
-
+int count=0;
 
 //char ch;
 void setup() {
   // declare the ledPin as an OUTPUT:
-
+ 
+  pinMode(interruptPin, INPUT_PULLUP);
+  attachInterrupt(digitalPinToInterrupt(interruptPin), blink,FALLING);
   
   pinMode(Motor1_INT1,OUTPUT);
   pinMode(Motor1_INT2,OUTPUT);
@@ -80,10 +85,21 @@ void loop() {
   if (pulseSensor.sawStartOfBeat()) {            // Constantly test to see if "a beat happened". 
  //Serial.println("♥  A HeartBeat Happened ! "); // If test is "true", print a message "a heartbeat happened".
  //Serial.print("BPM: ");                        // Print phrase "BPM: " 
- Serial.println(myBPM);    // Print the value inside of myBPM.
+    Serial.print(myBPM);    // Print the value inside of myBPM.
   
   }
-   
+  else{
+     Serial.print(myBPM);
+  }
+  Serial.print("/");
+
+  if(state == 1){
+      state = 0;
+      count = count + 1;
+      delay(20);
+  }
+  Serial.println(count);
+  
   //ch = Serial.read();
   //data_input  = digitalRead(Pro_input);
   //sensorValue = analogRead(sensorPin);
@@ -91,7 +107,7 @@ void loop() {
   //Serial.println(sensorValue,DEC);
   motorA(speedMotor);
   //analogWrite(Motor1_Enable,sensorValue);
-  delay(20);
+  delay(40);
 }
 void motorA(char ch){
   
@@ -116,7 +132,8 @@ void motorA(char ch){
     analogWrite(Motor1_Enable,250);
    }
 }
-void button_input(){
-     
+void blink() {
+  state = !state;
+  
+  
 }
-

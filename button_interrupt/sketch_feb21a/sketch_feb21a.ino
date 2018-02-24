@@ -7,7 +7,7 @@ void setup() {
   Serial.begin(9600);
   pinMode(ledPin, OUTPUT);
   pinMode(interruptPin, INPUT_PULLUP);
-  attachInterrupt(digitalPinToInterrupt(interruptPin), blink,FALLING);
+  attachInterrupt(digitalPinToInterrupt(interruptPin), blink,RISING);
 }
 
 void loop() {
