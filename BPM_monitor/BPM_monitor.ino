@@ -13,7 +13,11 @@
 #include <PulseSensorPlayground.h>     // Includes the PulseSensorPlayground Library.   
 
 //  Variables
+<<<<<<< HEAD
 int PulseWire = A0;       // PulseSensor PURPLE WIRE connected to ANALOG PIN 0
+=======
+const int PulseWire = A0;       // PulseSensor PURPLE WIRE connected to ANALOG PIN 0
+>>>>>>> 403743ff761146b6a2e68d7d560255e9b341c322
 const int LED13 = 13;          // The on-board Arduino LED, close to PIN 13.
 int Threshold = 500;           // Determine which Signal to "count as a beat" and which to ignore.
                                // Use the "Gettting Started Project" to fine-tune Threshold Value beyond default setting.
