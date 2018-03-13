@@ -26,14 +26,15 @@
 
   http://www.arduino.cc/en/Tutorial/AnalogInput
 */
-#define USE_ARDUINO_INTERRUPTS true    // Set-up low-level interrupts for most acurate BPM math.
+#define USE_ARDUINO_INTERRUPTS true   
+//define PulseWire A0 // Set-up low-level interrupts for most acurate BPM math.
 #include <PulseSensorPlayground.h>     // Includes the PulseSensorPlayground Library. 
 const byte interruptPin = 2;
 volatile byte state = LOW;
 
 
-const int PulseWire = A0;   // select the input pin for the potentiometer
-//const int PulseWire = A0;       // PulseSensor PURPLE WIRE connected to ANALOG PIN 0
+//int PulseWire = 0;   // select the input pin for the potentiometer
+const int PulseWire = 0;       // PulseSensor PURPLE WIRE connected to ANALOG PIN 0
 const int LED13 = 13;          // The on-board Arduino LED, close to PIN 13.
 int Threshold = 550;
 PulseSensorPlayground pulseSensor;
@@ -45,8 +46,8 @@ int Motor1_INT2 = 5;
 int Motor1_Enable = 3;
 
 char speedMotor;
-int count=0;
-
+int count;
+int myBPM;
 //char ch;
 void setup() {
   // declare the ledPin as an OUTPUT:
@@ -75,12 +76,14 @@ void setup() {
     //Serial.println("We created a pulseSensor Object !");  //This prints one time at Arduino power-up,  or on Arduino reset.  
   }
 
-  speedMotor = '0';
+  speedMotor = 'S';
+  count = 0;
+  myBPM =0;
 }
 
 void loop() {
   speedMotor = Serial.read();
-  int myBPM = pulseSensor.getBeatsPerMinute();  
+  myBPM = pulseSensor.getBeatsPerMinute();  
 
   if (pulseSensor.sawStartOfBeat()) {            // Constantly test to see if "a beat happened". 
  //Serial.println("♥  A HeartBeat Happened ! "); // If test is "true", print a message "a heartbeat happened".
@@ -130,6 +133,11 @@ void motorA(char ch){
    }     
    if(ch == '5'){
     analogWrite(Motor1_Enable,250);
+   }
+   if(ch == 'S'){
+     analogWrite(Motor1_Enable,0);
+     count = 0;
+     myBPM = 0;
    }
 }
 void blink() {
